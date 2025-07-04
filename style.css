@@ -1,331 +1,184 @@
-/*
-========================================
-QUIZ APPLICATION - COMPREHENSIVE STYLING
-========================================
-
-Deskripsi: Stylesheet untuk aplikasi kuis interaktif
-Fitur:
-- Modern gradient background
-- Responsive design untuk semua perangkat
-- Smooth transitions dan animations
-- Interactive button states
-- Visual feedback untuk pilihan jawaban
-- Clean typography dan spacing
-*/
-
-/* ================================
-   RESET CSS - NORMALISASI BROWSER
-   ================================ */
-
 * {
-    margin: 0;                    /* Hapus margin default semua elemen */
-    padding: 0;                   /* Hapus padding default semua elemen */
-    box-sizing: border-box;       /* Border dan padding dihitung dalam width/height */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-/* ================================
-   BODY - LAYOUT UTAMA & BACKGROUND
-   ================================ */
-
 body {
-    font-family: 'Arial', sans-serif;                                    /* Font utama aplikasi */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);       /* Gradient background biru-ungu */
-    min-height: 100vh;                                                   /* Tinggi minimum full viewport */
-    display: flex;                                                       /* Flexbox untuk centering */
-    justify-content: center;                                             /* Horizontal centering */
-    align-items: center;                                                 /* Vertical centering */
-    padding: 20px;                                                       /* Padding untuk ruang di tepi */
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
-
-/* ================================
-   CONTAINER - CARD UTAMA APLIKASI
-   ================================ */
-
 .container {
-    background: white;                                                   /* Background putih bersih */
-    border-radius: 20px;                                                 /* Sudut melengkung untuk tampilan modern */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);                        /* Shadow halus untuk depth */
-    max-width: 800px;                                                    /* Lebar maksimal container */
-    width: 100%;                                                         /* Lebar penuh dalam batas max-width */
-    padding: 40px;                                                       /* Padding internal yang generous */
-    text-align: center;                                                  /* Teks rata tengah */
-    transition: all 0.3s ease;                                          /* Transisi smooth untuk perubahan */
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
 }
-
-/* ================================
-   LOGO - BRANDING APLIKASI
-   ================================ */
-
 .logo {
-    font-size: 2.5rem;                                                   /* Ukuran font besar untuk prominence */
-    font-weight: bold;                                                   /* Tebal untuk emphasis */
-    color: #4a90e2;                                                      /* Warna biru brand */
-    margin-bottom: 30px;                                                 /* Spasi bawah untuk separation */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);                       /* Text shadow halus untuk depth */
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4a90e2;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-/* ================================
-   INPUT GROUP - FORM STYLING
-   ================================ */
-
 .input-group {
-    margin-bottom: 30px;                                                 /* Margin bawah untuk spacing */
+    margin-bottom: 30px;
 }
-
 .input-group input {
-    width: 100%;                                                         /* Lebar penuh dalam container */
-    max-width: 400px;                                                    /* Batas maksimal lebar input */
-    padding: 15px 20px;                                                  /* Padding internal yang nyaman */
-    border: 2px solid #e0e0e0;                                          /* Border abu-abu muda */
-    border-radius: 50px;                                                 /* Border radius tinggi untuk pill shape */
-    font-size: 16px;                                                     /* Ukuran font readable */
-    outline: none;                                                       /* Hapus outline default browser */
-    transition: all 0.3s ease;                                          /* Transisi smooth untuk hover/focus */
-    text-align: center;                                                  /* Text rata tengah */
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    text-align: center;
 }
-
 .input-group input:focus {
-    border-color: #4a90e2;                                              /* Border biru saat focus */
-    box-shadow: 0 0 20px rgba(74, 144, 226, 0.2);                      /* Glow effect saat focus */
+    border-color: #4a90e2;
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.2);
 }
-
-/* ================================
-   BUTTONS - INTERACTIVE ELEMENTS
-   ================================ */
-
 .btn {
-    background: linear-gradient(135deg, #4a90e2, #357abd);               /* Gradient background biru */
-    color: white;                                                       /* Warna teks putih */
-    border: none;                                                       /* Hapus border default */
-    padding: 15px 30px;                                                  /* Padding internal yang nyaman */
-    border-radius: 50px;                                                 /* Border radius tinggi untuk pill shape */
-    font-size: 16px;                                                     /* Ukuran font readable */
-    cursor: pointer;                                                     /* Pointer cursor saat hover */
-    transition: all 0.3s ease;                                          /* Transisi smooth untuk hover */
-    margin: 10px;                                                       /* Margin untuk spasi antar tombol */
-    min-width: 120px;                                                   /* Lebar minimum tombol */
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    min-width: 120px;
 }
-
 .btn:hover {
-    transform: translateY(-2px);                                        /* Efek angkat saat hover */
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);                    /* Shadow lebih dalam saat hover */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
 }
-
-/* ================================
-   BUTTONS - VARIAN WARNA
-   ================================ */
-
 .btn-secondary {
-    background: linear-gradient(135deg, #6c757d, #5a6268);               /* Gradient abu-abu untuk varian sekunder */
+    background: linear-gradient(135deg, #6c757d, #5a6268);
 }
-
 .btn-danger {
-    background: linear-gradient(135deg, #dc3545, #c82333);               /* Gradient merah untuk aksi berbahaya */
+    background: linear-gradient(135deg, #dc3545, #c82333);
 }
-
-/* ================================
-   TOPIC GRID - LAYOUT PEMILIHAN TOPIK
-   ================================ */
-
 .topic-grid {
-    display: grid;                                                       /* Menggunakan grid layout */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));        /* Kolom responsif untuk berbagai ukuran layar */
-    gap: 20px;                                                          /* Jarak antar item grid */
-    margin: 30px 0;                                                     /* Margin atas bawah untuk spasi */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
 }
-
 .topic-card {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);               /* Gradient latar belakang kartu topik */
-    border: 2px solid #e0e0e0;                                          /* Border abu-abu muda */
-    border-radius: 15px;                                                 /* Border radius sedang */
-    padding: 20px;                                                       /* Padding internal yang nyaman */
-    cursor: pointer;                                                     /* Pointer cursor saat hover */
-    transition: all 0.3s ease;                                          /* Transisi smooth untuk hover */
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
-
 .topic-card:hover {
-    border-color: #4a90e2;                                              /* Border biru saat hover */
-    transform: translateY(-5px);                                        /* Efek angkat saat hover */
-    box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2);                    /* Shadow lebih dalam saat hover */
+    border-color: #4a90e2;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(74, 144, 226, 0.2);
 }
-
-/* ================================
-   QUESTION CONTAINER - TAMPILAN SOAL
-   ================================ */
-
 .question-container {
-    text-align: left;                                                   /* Teks rata kiri untuk pertanyaan */
-    margin: 30px 0;                                                     /* Margin atas bawah untuk spasi */
+    text-align: left;
+    margin: 30px 0;
 }
-
 .question-number {
-    color: #4a90e2;                                                      /* Warna biru untuk nomor pertanyaan */
-    font-weight: bold;                                                   /* Tebal untuk emphasis */
-    font-size: 18px;                                                     /* Ukuran font yang mencolok */
-    margin-bottom: 10px;                                                 /* Spasi bawah untuk pemisah */
+    color: #4a90e2;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
 }
-
 .question-text {
-    font-size: 20px;                                                     /* Ukuran font besar untuk pertanyaan */
-    font-weight: bold;                                                   /* Tebal untuk emphasis */
-    margin-bottom: 20px;                                                 /* Spasi bawah untuk pemisah dengan opsi jawaban */
-    color: #333;                                                         /* Warna teks gelap untuk keterbacaan */
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
 }
-
-/* ================================
-   OPTIONS - TAMPILAN PILIHAN JAWABAN
-   ================================ */
-
 .options {
-    display: flex;                                                       /* Menggunakan flexbox untuk layout opsi */
-    flex-direction: column;                                             /* Kolom vertikal untuk opsi */
-    gap: 10px;                                                          /* Jarak antar opsi */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-
 .option {
-    background: #f8f9fa;                                                  /* Latar belakang abu-abu muda untuk opsi */
-    border: 2px solid #e0e0e0;                                          /* Border abu-abu muda */
-    border-radius: 10px;                                                 /* Border radius untuk sudut lembut */
-    padding: 15px 20px;                                                  /* Padding internal yang nyaman */
-    cursor: pointer;                                                     /* Pointer cursor saat hover */
-    transition: all 0.3s ease;                                          /* Transisi smooth untuk hover */
-    text-align: left;                                                   /* Teks rata kiri dalam opsi */
-    pointer-events: auto;                                               /* Mengaktifkan interaksi pointer */
+    background: #f8f9fa;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    pointer-events: auto;
 }
-
 .option:hover {
-    border-color: #4a90e2;                                              /* Border biru saat hover */
-    background: #e3f2fd;                                                /* Latar belakang biru muda saat hover */
+    border-color: #4a90e2;
+    background: #e3f2fd;
 }
-
-/* ================================
-   OPTION STATES - STATUS PILIHAN JAWABAN
-   ================================ */
-
 .option.selected {
-    border-color: #4a90e2;                                              /* Border biru untuk pilihan yang dipilih */
-    background: #4a90e2;                                                /* Latar belakang biru untuk pilihan yang dipilih */
-    color: white;                                                       /* Warna teks putih untuk kontras */
+    border-color: #4a90e2;
+    background: #4a90e2;
+    color: white;
 }
-
 .option.correct {
-    background-color: #d4edda;                                          /* Latar belakang hijau muda untuk jawaban benar */
-    border-color: #28a745;                                              /* Border hijau untuk jawaban benar */
-    color: #155724;                                                     /* Warna teks hijau tua untuk kontras */
+    background-color: #d4edda;
+    border-color: #28a745;
+    color: #155724;
 }
-
 .option.incorrect {
-    background-color: #f8d7da;                                          /* Latar belakang merah muda untuk jawaban salah */
-    border-color: #dc3545;                                              /* Border merah untuk jawaban salah */
-    color: #721c24;                                                     /* Warna teks merah tua untuk kontras */
+    background-color: #f8d7da;
+    border-color: #dc3545;
+    color: #721c24;
 }
-
-/* ================================
-   FEEDBACK MESSAGE - PESAN UMPAN BALIK
-   ================================ */
-
 .feedback-message {
-    margin-top: 15px;                                                   /* Margin atas untuk spasi dengan elemen di atasnya */
-    font-size: 1.1rem;                                                  /* Ukuran font sedikit lebih besar dari default */
-    font-weight: bold;                                                   /* Tebal untuk emphasis */
-    text-align: center;                                                  /* Teks rata tengah */
+    margin-top: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
 }
-
 .feedback-message.correct {
-    color: #28a745;                                                      /* Warna hijau untuk umpan balik jawaban benar */
+    color: #28a745;
 }
-
 .feedback-message.incorrect {
-    color: #dc3545;                                                      /* Warna merah untuk umpan balik jawaban salah */
+    color: #dc3545;
 }
-
-/* ================================
-   RESULTS - TAMPILAN HASIL
-   ================================ */
-
 .results {
-    text-align: center;                                                  /* Teks rata tengah untuk hasil */
-    padding: 30px;                                                       /* Padding untuk spasi internal */
+    text-align: center;
+    padding: 30px;
 }
-
 .score {
-    font-size: 3rem;                                                    /* Ukuran font sangat besar untuk skor */
-    color: #4a90e2;                                                      /* Warna biru untuk skor */
-    font-weight: bold;                                                   /* Tebal untuk emphasis */
-    margin: 20px 0;                                                     /* Margin atas bawah untuk spasi */
+    font-size: 3rem;
+    color: #4a90e2;
+    font-weight: bold;
+    margin: 20px 0;
 }
-
 .message {
-    font-size: 1.2rem;                                                  /* Ukuran font besar untuk pesan hasil */
-    margin: 20px 0;                                                     /* Margin atas bawah untuk spasi */
-    color: #333;                                                         /* Warna teks gelap untuk keterbacaan */
+    font-size: 1.2rem;
+    margin: 20px 0;
+    color: #333;
 }
-
-/* ================================
-   HIDDEN - UTILITY CLASS
-   ================================ */
-
 .hidden {
-    display: none;                                                       /* Sembunyikan elemen dengan display none */
+    display: none;
 }
-
-/* ================================
-   MEDIA QUERIES - RESPONSIVE STYLING
-   ================================ */
-
-/* Tablet dan smartphone - ukuran layar 768px ke bawah */
 @media (max-width: 768px) {
     .container {
-        padding: 20px;                                                   /* Padding lebih kecil untuk perangkat kecil */
+        padding: 20px;
     }
     .logo {
-        font-size: 2rem;                                                /* Ukuran font logo lebih kecil */
+        font-size: 2rem;
     }
     .topic-grid {
-        grid-template-columns: 1fr;                                      /* Satu kolom untuk daftar topik */
+        grid-template-columns: 1fr;
     }
     .question-text {
-        font-size: 18px;                                                 /* Ukuran font pertanyaan lebih kecil */
+        font-size: 18px;
     }
 }
-
-/*
-========================================
-RINGKASAN STRUKTUR CSS
-========================================
-
-1. RESET CSS:
-   - Menghapus margin dan padding default
-   - Box-sizing border-box untuk konsistensi
-
-2. LAYOUT UTAMA:
-   - Body dengan flexbox centering
-   - Gradient background untuk visual appeal
-   - Container card dengan shadow dan border radius
-
-3. KOMPONEN UTAMA:
-   - Logo dengan text shadow
-   - Input fields dengan focus states
-   - Buttons dengan hover effects dan variants
-   - Topic grid dengan responsive columns
-   - Question container dengan proper typography
-
-4. INTERACTIVE ELEMENTS:
-   - Option buttons dengan states (hover, selected, correct, incorrect)
-   - Feedback messages dengan color coding
-   - Results display dengan emphasized score
-
-5. RESPONSIVE DESIGN:
-   - Mobile-first approach
-   - Breakpoint at 768px for tablet/mobile
-   - Adjusted spacing and typography
-
-6. VISUAL HIERARCHY:
-   - Consistent color scheme (#4a90e2 primary)
-   - Proper spacing and typography scale
-   - Smooth transitions for better UX
-
-7. UTILITY CLASSES:
-   - Hidden class for show/hide functionality
-   - Consistent margin and padding scale
-*/
