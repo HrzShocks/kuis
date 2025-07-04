@@ -1,62 +1,12 @@
-/*
-========================================
-APLIKASI KUIS INTERAKTIF - SCRIPT UTAMA
-========================================
-
-Deskripsi: Aplikasi kuis interaktif dengan berbagai topik
-Fitur:
-- Pemilihan topik (Pengetahuan Umum, Matematika, Sains, Sejarah, Budaya)
-- Pertanyaan acak dengan 5 pilihan ganda
-- Sistem penilaian dan feedback
-- Navigasi antar layar
-- Validasi input pengguna
-
-Struktur Data:
-- dataKuis: Object berisi semua pertanyaan per topik
-- Variabel global: Status kuis, skor, dan navigasi
-*/
-
-// Konfirmasi bahwa file JavaScript berhasil dimuat
 console.log('js berhasil');
-
-// ================================
-// VARIABEL GLOBAL - STATUS APLIKASI
-// ================================
-
-// Menyimpan nama pengguna yang diinput (String)
 let namaPengguna = '';
-
-// Menyimpan topik kuis yang dipilih (String)
 let topikSaatIni = '';
-
-// Index pertanyaan yang sedang aktif, dimulai dari 0 (Number)
 let indeksPertanyaanSaatIni = 0;
-
-// Skor total pengguna (Number)
 let skor = 0;
-
-// Menyimpan jawaban yang dipilih pengguna (String: A, B, C, D, atau E)
 let jawabanTerpilih = '';
-
-// Array berisi daftar pertanyaan untuk topik yang dipilih (Array of Objects)
 let daftarPertanyaan = [];
-
-// Flag untuk mencegah pengguna mengubah jawaban setelah memilih (Boolean)
 let jawabanSudahDipilih = false;
 
-// ================================
-// DATABASE KUIS - STRUKTUR DATA
-// ================================
-
-/*
-Struktur dataKuis:
-- Object dengan key berupa nama topik (String)
-- Value berupa Array of Objects, setiap object berisi:
-  * pertanyaan: String - Teks pertanyaan
-  * pilihan: Array of String - 5 pilihan jawaban (A-E)
-  * jawaban: String - Jawaban benar (A, B, C, D, atau E)
-  * penjelasan: String - Penjelasan jawaban untuk feedback
-*/
 const dataKuis = {
     'Pengetahuan Umum': [
         { pertanyaan: 'Siapa penemu Teori Relativitas Umum?', pilihan: ['A. Isaac Newton', 'B. Albert Einstein', 'C. Stephen Hawking', 'D. Nikola Tesla', 'E. Galileo Galilei'], jawaban: 'B', penjelasan: 'Albert Einstein mengembangkan Teori Relativitas Umum pada tahun 1915, yang menjelaskan gravitasi sebagai kurva ruang-waktu.' },
@@ -120,150 +70,64 @@ const dataKuis = {
     ]
 };
 
-// ================================
-// FUNGSI UTAMA - NAVIGASI KUIS
-// ================================
-
-/*
-Fungsi mulaiKuis()
-- Dipanggil saat pengguna menekan tombol "Mulai Kuis"
-- Memvalidasi input nama pengguna
-- Berpindah dari layar welcome ke layar pemilihan topik
-- Menggunakan DOM manipulation untuk mengubah visibility layar
-*/
 function mulaiKuis() {
     console.log('Fungsi mulaiKuis() dipanggil');
-    
-    // Mengambil elemen input nama dari DOM
     const inputNama = document.getElementById('user-name');
-    
-    // Validasi: pastikan nama tidak kosong
-    if (inputNama.value === '') {
+    if (inputNama.value.trim() === '') {
         console.log('Nama pengguna kosong, menampilkan alert');
         alert('Silakan masukkan nama Anda terlebih dahulu!');
-        return; // Keluar dari fungsi jika validasi gagal
+        return;
     }
-    
-    // Simpan nama pengguna ke variabel global
     namaPengguna = inputNama.value;
     console.log(`Nama pengguna diset: ${namaPengguna}`);
-    
-    // Navigasi layar: sembunyikan welcome screen dan tampilkan topic selection
     document.getElementById('welcome-screen').classList.add('hidden');
     document.getElementById('topic-selection').classList.remove('hidden');
     console.log('Tampilan berganti ke layar pemilihan topik');
 }
 
-/*
-Fungsi pilihTopik(topik)
-- Dipanggil saat pengguna memilih salah satu kartu topik
-- Parameter: topik (String) - nama topik yang dipilih
-- Menginisialisasi kuis dengan pertanyaan acak
-- Berpindah ke layar kuis utama
-*/
 function pilihTopik(topik) {
     console.log(`Fungsi pilihTopik() dipanggil dengan topik: ${topik}`);
-    
-    // Simpan topik yang dipilih
     topikSaatIni = topik;
-    
-    // Ambil pertanyaan dari database dan acak urutannya
-    // Menggunakan spread operator (...) untuk membuat copy array
     daftarPertanyaan = acakArray([...dataKuis[topik]]);
-    
-    // Reset variabel kuis
     indeksPertanyaanSaatIni = 0;
     skor = 0;
-    
     console.log(`Pertanyaan diacak, total: ${daftarPertanyaan.length} pertanyaan`);
-    
-    // Navigasi layar: sembunyikan topic selection dan tampilkan quiz screen
     document.getElementById('topic-selection').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     console.log('Tampilan berganti ke layar kuis');
-    
-    // Tampilkan pertanyaan pertama
     tampilkanPertanyaan();
 }
 
-// ================================
-// FUNGSI UTAMA - LOGIKA PERMAINAN
-// ================================
-
-/*
-Fungsi tampilkanPertanyaan()
-- Menampilkan pertanyaan dan pilihan jawaban ke layar
-- Mengatur ulang status jawaban sebelumnya
-- Mengaktifkan pilihan bagi pengguna
-- Mengisi konten HTML secara dinamis
-*/
 function tampilkanPertanyaan() {
     console.log(`Fungsi tampilkanPertanyaan() dipanggil - Pertanyaan ke-${indeksPertanyaanSaatIni + 1}`);
-    
-    // Reset status jawaban untuk pertanyaan baru
     jawabanSudahDipilih = false;
-    
-    // Mengaktifkan semua opsi pilihan (enable pointer events)
     document.querySelectorAll('.option').forEach(opsi => opsi.style.pointerEvents = 'auto');
-    
-    // Mengambil data pertanyaan saat ini dari array
     const pertanyaan = daftarPertanyaan[indeksPertanyaanSaatIni];
     console.log(`Menampilkan pertanyaan: "${pertanyaan.pertanyaan}"`);
-    
-    // Menampilkan nomor pertanyaan (1-based indexing untuk user)
     document.getElementById('question-number').textContent = `Pertanyaan ${indeksPertanyaanSaatIni + 1} dari ${daftarPertanyaan.length}`;
-    
-    // Menampilkan teks pertanyaan
     document.getElementById('question-text').textContent = pertanyaan.pertanyaan;
-    
-    // Mengambil container untuk pilihan jawaban
     const wadahPilihan = document.getElementById('options-container');
-    
-    // Mengosongkan pilihan dari pertanyaan sebelumnya
     wadahPilihan.innerHTML = '';
     console.log('Opsi pilihan dikosongkan, membuat opsi baru');
-    
-    // Membuat elemen pilihan untuk setiap jawaban
     pertanyaan.pilihan.forEach((teksPilihan, indeks) => {
-        // Mengambil huruf pilihan (A, B, C, D, E) dari karakter pertama
         const hurufPilihan = teksPilihan.charAt(0);
-        
-        // Membuat elemen div untuk pilihan
         const divPilihan = document.createElement('div');
         divPilihan.className = 'option';
         divPilihan.textContent = teksPilihan;
-        
-        // Menambahkan event handler untuk klik pilihan
         divPilihan.onclick = () => pilihOpsi(hurufPilihan, divPilihan);
-        
-        // Menambahkan pilihan ke container
         wadahPilihan.appendChild(divPilihan);
     });
-    
-    // Reset variabel jawaban dan UI
     jawabanTerpilih = '';
-    document.getElementById('next-btn').disabled = true; // Disable tombol Next
-    document.getElementById('feedback-message').classList.add('hidden'); // Sembunyikan feedback
-    
+    document.getElementById('next-btn').disabled = true;
+    document.getElementById('feedback-message').classList.add('hidden');
+    document.getElementById('feedback-message').textContent = '';
     console.log('Pertanyaan berhasil ditampilkan');
 }
 
-/*
-Fungsi pilihOpsi(hurufJawaban, elemen)
-- Dipanggil saat pengguna memilih salah satu opsi jawaban
-- Parameter: hurufJawaban (String) - huruf jawaban yang dipilih (A-E)
-- Parameter: elemen (HTMLElement) - elemen DOM yang diklik
-- Memproses dan mengevaluasi jawaban pengguna
-- Menampilkan feedback dan mengatur skor
-*/
 function pilihOpsi(hurufJawaban, elemen) {
     console.log(`Fungsi pilihOpsi() dipanggil dengan jawaban: ${hurufJawaban}`);
-    
-    // Prevent multiple selections - cegah pengguna memilih lagi
     if (jawabanSudahDipilih) return;
     jawabanSudahDipilih = true;
-    
-    // Nonaktifkan semua opsi pilihan setelah memilih
     document.querySelectorAll('.option').forEach(opsi => opsi.style.pointerEvents = 'none');
     console.log('Jawaban dipilih, semua opsi dinonaktifkan');
     document.querySelectorAll('.option').forEach(opsi => {
@@ -274,260 +138,120 @@ function pilihOpsi(hurufJawaban, elemen) {
     const pesanUmpanBalik = document.getElementById('feedback-message');
     const pertanyaanSaatIni = daftarPertanyaan[indeksPertanyaanSaatIni];
     if (jawabanTerpilih === pertanyaanSaatIni.jawaban) {
-        // JAWABAN BENAR
         console.log('Jawaban BENAR!');
-        elemen.classList.add('correct'); // Styling hijau
-        skor++; // Tambah skor
+        elemen.classList.add('correct');
+        skor++;
         console.log(`Skor bertambah menjadi: ${skor}`);
-        
-        // Tampilkan penjelasan dengan styling positif
-        pesanUmpanBalik.innerHTML = `✅ <strong>Benar!</strong><br>${pertanyaanSaatIni.penjelasan}`;
+        pesanUmpanBalik.innerHTML = `${pertanyaanSaatIni.penjelasan}`;
         pesanUmpanBalik.className = 'feedback-message correct';
     } else {
-        // JAWABAN SALAH
         console.log(`Jawaban SALAH! Jawaban benar: ${pertanyaanSaatIni.jawaban}`);
-        elemen.classList.add('incorrect'); // Styling merah
-        
-        // Tampilkan jawaban benar dan penjelasan
-        pesanUmpanBalik.innerHTML = `❌ <strong>Salah!</strong> Jawaban benar: <strong>${pertanyaanSaatIni.jawaban}</strong><br>${pertanyaanSaatIni.penjelasan}`;
+        elemen.classList.add('incorrect');
+        pesanUmpanBalik.innerHTML = `${pertanyaanSaatIni.penjelasan}`;
         pesanUmpanBalik.className = 'feedback-message incorrect';
-        
-        // Tampilkan jawaban benar dengan warna hijau
-        const jawabanBenar = document.querySelector(`.option:nth-child(${pertanyaanSaatIni.jawaban.charCodeAt(0) - 64})`);
-        if (jawabanBenar) {
-            jawabanBenar.classList.add('correct');
-        }
+        const semuaPilihan = document.querySelectorAll('.option');
+        semuaPilihan.forEach(opsi => {
+            if (opsi.textContent.charAt(0) === pertanyaanSaatIni.jawaban) {
+                opsi.classList.add('correct');
+            }
+        });
     }
-    
-    // Tampilkan feedback dan aktifkan tombol Next
     pesanUmpanBalik.classList.remove('hidden');
     document.getElementById('next-btn').disabled = false;
     console.log('Feedback ditampilkan, tombol Next diaktifkan');
 }
 
-/*
-Fungsi pertanyaanSelanjutnya()
-- Dipanggil saat pengguna menekan tombol "Selanjutnya"
-- Mengatur navigasi ke pertanyaan berikutnya
-- Menentukan apakah kuis berlanjut atau selesai
-*/
 function pertanyaanSelanjutnya() {
     console.log(`Fungsi pertanyaanSelanjutnya() dipanggil - Indeks saat ini: ${indeksPertanyaanSaatIni}`);
-    
-    // Pindah ke pertanyaan berikutnya
     indeksPertanyaanSaatIni++;
-    
-    // Cek apakah masih ada pertanyaan
     if (indeksPertanyaanSaatIni < daftarPertanyaan.length) {
         console.log(`Masih ada pertanyaan, pindah ke pertanyaan ke-${indeksPertanyaanSaatIni + 1}`);
-        tampilkanPertanyaan(); // Tampilkan pertanyaan berikutnya
+        tampilkanPertanyaan();
     } else {
         console.log('Semua pertanyaan selesai, menampilkan hasil');
-        tampilkanHasil(); // Tampilkan hasil akhir
+        tampilkanHasil();
     }
 }
 
-/*
-Fungsi tampilkanHasil()
-- Menampilkan layar hasil akhir kuis
-- Menghitung persentase skor
-- Memberikan feedback berdasarkan pencapaian pengguna
-- Navigasi ke layar hasil
-*/
 function tampilkanHasil() {
     console.log(`Fungsi tampilkanHasil() dipanggil - Skor akhir: ${skor}/${daftarPertanyaan.length}`);
-    
-    // Hitung persentase skor
-    const persentase = Math.round((skor / daftarPertanyaan.length) * 100);
-    console.log(`Persentase skor: ${persentase}%`);
-    
-    // Tampilkan skor dalam format yang menarik
-    const elemenSkor = document.getElementById('final-score');
-    elemenSkor.textContent = `${skor}/${daftarPertanyaan.length}`;
-    
-    // Tampilkan pesan hasil berdasarkan persentase skor
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('results-screen').classList.remove('hidden');
+    document.getElementById('final-score').textContent = `${skor}/${daftarPertanyaan.length}`;
+    console.log('Skor akhir ditampilkan');
     const teksHasil = document.getElementById('result-message');
-    
-    // Sistem penilaian berdasarkan persentase
-    if (persentase >= 90) {
-        teksHasil.innerHTML = `Luar biasa sekali, ${namaPengguna}! 🎉<br>Kamu adalah mastermind sejati! Hampir semua jawabanmu benar!`;
-    } else if (persentase >= 80) {
-        teksHasil.innerHTML = `Keren banget, ${namaPengguna}! 🌟<br>Kamu punya pengetahuan yang sangat baik! Terus pertahankan!`;
-    } else if (persentase >= 70) {
-        teksHasil.innerHTML = `Bagus sekali, ${namaPengguna}! 👍<br>Pengetahuanmu sudah cukup solid. Sedikit lagi bisa sempurna!`;
-    } else if (persentase >= 60) {
-        teksHasil.innerHTML = `Tidak buruk, ${namaPengguna}! 😊<br>Kamu sudah di jalur yang benar. Tetap semangat belajar!`;
-    } else if (persentase >= 50) {
-        teksHasil.innerHTML = `Cukup lumayan, ${namaPengguna}! 🙂<br>Masih ada ruang untuk berkembang. Jangan menyerah!`;
-    } else if (persentase >= 30) {
-        teksHasil.innerHTML = `Hmm, ${namaPengguna}! 🤔<br>Sepertinya perlu belajar lebih banyak nih. Semangat!`;
+    if (skor === daftarPertanyaan.length) {
+        console.log('Skor sempurna!');
+        teksHasil.innerHTML = `Gokil abis, ${namaPengguna}! 🎉<br>Semua pertanyaan kamu libas habis! Auto GG nih! ✨`;
+    } else if (skor >= 8) {
+        console.log('Skor sangat baik');
+        teksHasil.innerHTML = `Keren, ${namaPengguna}! 🔥<br>Kamu bener ${skor} dari ${daftarPertanyaan.length} pertanyaan. Dikit lagi sempurna, gaspol! ✨`;
+    } else if (skor >= 5) {
+        console.log('Skor lumayan');
+        teksHasil.innerHTML = `Lumayan juga, ${namaPengguna}! 👍<br>Kamu bener ${skor} dari ${daftarPertanyaan.length} pertanyaan. Keep it up! 📚`;
+    } else if (skor > 0) {
+        console.log('Skor rendah tapi masih ada yang benar');
+        teksHasil.innerHTML = `Semangat terus, ${namaPengguna}! 😉<br>Kamu bener ${skor} dari ${daftarPertanyaan.length} pertanyaan.<br>Jangan nyerah, tiap usaha kecil itu progress, kok. Pasti bisa next time! 🚀`;
     } else {
+        console.log('Skor 0');
         teksHasil.innerHTML = `Aduh, ${namaPengguna}! 😅<br>Semua jawabanmu belum on point nih. Gapapa, tetep belajar dan coba lagi!💡`;
     }
     console.log('Pesan hasil ditampilkan');
 }
 
-// ================================
-// FUNGSI UTILITAS - RESET & NAVIGASI
-// ================================
-
-/*
-Fungsi ulangKuis()
-- Dipanggil saat pengguna menekan tombol "Mulai Ulang"
-- Mereset semua variabel kuis ke nilai awal
-- Mengembalikan pengguna ke layar pemilihan topik
-*/
 function ulangKuis() {
     console.log('Fungsi ulangKuis() dipanggil');
-    
-    // Reset semua variabel kuis
     indeksPertanyaanSaatIni = 0;
     skor = 0;
     jawabanTerpilih = '';
-    
     console.log('Variabel kuis direset');
-    
-    // Navigasi layar: kembali ke topic selection
     document.getElementById('results-screen').classList.add('hidden');
     document.getElementById('topic-selection').classList.remove('hidden');
     console.log('Tampilan berganti ke layar pemilihan topik');
 }
 
-/*
-Fungsi konfirmasiKeluarKuis()
-- Menampilkan dialog konfirmasi saat pengguna ingin meninggalkan kuis
-- Menggunakan confirm() untuk mendapatkan konfirmasi pengguna
-*/
 function konfirmasiKeluarKuis() {
     console.log('Fungsi konfirmasiKeluarKuis() dipanggil');
-    
-    // Tampilkan dialog konfirmasi
     if (confirm('Apakah Anda yakin ingin meninggalkan kuis?')) {
         console.log('User mengkonfirmasi keluar dari kuis');
-        keluarKuis(false); // Keluar dari kuis
+        keluarKuis(false);
     } else {
         console.log('User membatalkan keluar dari kuis');
     }
 }
 
-/*
-Fungsi keluarKuis(dariLayarHasil)
-- Mengatur ulang semua variabel kuis dan UI
-- Mengembalikan pengguna ke layar selamat datang
-- Parameter: dariLayarHasil (Boolean) - menentukan layar asal pemanggilan
-*/
 function keluarKuis(dariLayarHasil) {
-    console.log(`Fungsi keluarKuis() dipanggil - dari layar hasil: ${dariLayarHasil}`);
-    
-    // Reset semua variabel kuis ke nilai awal
-    namaPengguna = '';
-    topikSaatIni = '';
+    console.log(`Fungsi keluarKuis() dipanggil - dariLayarHasil: ${dariLayarHasil}`);
     indeksPertanyaanSaatIni = 0;
     skor = 0;
     jawabanTerpilih = '';
-    daftarPertanyaan = [];
-    jawabanSudahDipilih = false;
-    
-    console.log('Semua variabel kuis direset');
-    
-    // Navigasi layar: kembali ke welcome screen
+    namaPengguna = '';
+    console.log('Semua variabel direset');
     if (dariLayarHasil) {
+        console.log('Keluar dari layar hasil');
         document.getElementById('results-screen').classList.add('hidden');
     } else {
+        console.log('Keluar dari layar kuis');
         document.getElementById('quiz-screen').classList.add('hidden');
     }
-    
-    // Tampilkan layar welcome dan kosongkan input nama
     document.getElementById('welcome-screen').classList.remove('hidden');
     document.getElementById('user-name').value = '';
-    
-    console.log('Tampilan berganti ke layar selamat datang');
+    console.log('Kembali ke layar selamat datang');
 }
 
-// ================================
-// FUNGSI UTILITAS - ALGORITMA
-// ================================
-
-/*
-Fungsi acakArray(array)
-- Mengacak urutan elemen dalam array menggunakan algoritma Fisher-Yates shuffle
-- Parameter: array (Array) - array yang akan diacak
-- Return: Array yang sudah diacak
-- Algoritma Fisher-Yates:
-  1. Iterasi dari elemen terakhir ke elemen kedua
-  2. Pilih indeks acak dari 0 hingga i (inklusif)
-  3. Tukar elemen pada indeks i dengan elemen pada indeks acak
-*/
 function acakArray(array) {
     console.log('Fungsi acakArray() dipanggil untuk mengacak pertanyaan');
-    
-    // Implementasi Fisher-Yates shuffle algorithm
     for (let i = array.length - 1; i > 0; i--) {
-        // Pilih indeks acak dari 0 hingga i
         const j = Math.floor(Math.random() * (i + 1));
-        
-        // Tukar elemen menggunakan destructuring assignment
         [array[i], array[j]] = [array[j], array[i]];
     }
-    
     console.log('Array berhasil diacak');
     return array;
 }
 
-// ================================
-// EVENT LISTENERS - INTERAKSI PENGGUNA
-// ================================
-
-/*
-Event listener untuk input nama pengguna
-- Mendeteksi penekanan tombol Enter pada input field
-- Memulai kuis secara otomatis tanpa perlu klik tombol
-- Memberikan alternatif cara untuk memulai kuis
-*/
 document.getElementById('user-name').addEventListener('keypress', function(e) {
-    // Cek apakah tombol yang ditekan adalah Enter
     if (e.key === 'Enter') {
         console.log('Tombol Enter ditekan pada input nama');
-        mulaiKuis(); // Panggil fungsi mulai kuis
+        mulaiKuis();
     }
 });
-
-/*
-========================================
-RINGKASAN STRUKTUR APLIKASI
-========================================
-
-1. VARIABEL GLOBAL:
-   - namaPengguna: Menyimpan nama pengguna (String)
-   - topikSaatIni: Menyimpan topik yang dipilih (String)
-   - indeksPertanyaanSaatIni: Index pertanyaan aktif (Number)
-   - skor: Skor pengguna (Number)
-   - jawabanTerpilih: Jawaban yang dipilih (String)
-   - daftarPertanyaan: Array pertanyaan yang diacak (Array)
-   - jawabanSudahDipilih: Flag status pemilihan (Boolean)
-
-2. DATA STRUCTURE:
-   - dataKuis: Object berisi semua pertanyaan per topik
-   - Setiap pertanyaan memiliki: pertanyaan, pilihan, jawaban, penjelasan
-
-3. ALUR APLIKASI:
-   Welcome Screen → Topic Selection → Quiz Screen → Results Screen
-
-4. FUNGSI UTAMA:
-   - mulaiKuis(): Validasi nama dan navigasi ke topic selection
-   - pilihTopik(): Inisialisasi kuis dan acak pertanyaan
-   - tampilkanPertanyaan(): Menampilkan pertanyaan dan pilihan
-   - pilihOpsi(): Evaluasi jawaban dan tampilkan feedback
-   - pertanyaanSelanjutnya(): Navigasi ke pertanyaan berikutnya
-   - tampilkanHasil(): Kalkulasi skor dan tampilkan hasil
-   - ulangKuis(): Reset kuis dan kembali ke topic selection
-   - keluarKuis(): Reset semua dan kembali ke welcome screen
-
-5. FITUR TAMBAHAN:
-   - Validasi input nama
-   - Sistem scoring dan feedback
-   - Algoritma Fisher-Yates untuk acak pertanyaan
-   - Keyboard navigation (Enter untuk mulai)
-   - UI feedback (styling pilihan benar/salah)
-   - Konfirmasi keluar kuis
-*/
