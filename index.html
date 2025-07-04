@@ -1,75 +1,41 @@
 <!DOCTYPE html>
-<html lang="id"> <!-- Bahasa Indonesia untuk dokumen -->
+<html lang="id">
 <head>
-    <!-- Metadata untuk karakter encoding dan responsivitas -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Judul halaman yang muncul di tab browser -->
     <title>Mini Kuis Kelompok 1</title>
-    
-    <!-- Link ke file CSS eksternal untuk styling -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Container utama yang membungkus seluruh aplikasi kuis -->
     <div class="container">
-        
-        <!-- LAYAR SELAMAT DATANG -->
-        <!-- Layar pertama yang muncul saat aplikasi dimuat -->
         <div id="welcome-screen">
-            <!-- Judul aplikasi dengan styling khusus -->
             <h1 class="logo">Mini Kuis </h1>
-            
-            <!-- Pesan sambutan untuk pengguna -->
             <p style="color: #666; margin-bottom: 30px;">Selamat datang di kuis interaktif kami!</p>
-            
-            <!-- Grup input untuk nama pengguna -->
             <div class="input-group">
-                <!-- Input field untuk memasukkan nama pengguna -->
-                <!-- ID digunakan untuk mengakses elemen ini dari JavaScript -->
                 <input type="text" id="user-name" placeholder="Masukkan nama Anda" required>
             </div>
-            
-            <!-- Tombol untuk memulai kuis -->
-            <!-- onclick memanggil fungsi mulaiKuis() dari JavaScript -->
             <button class="btn" onclick="mulaiKuis()">Mulai Kuis</button>
         </div>
 
-        <!-- LAYAR PEMILIHAN TOPIK -->
-        <!-- Layar kedua yang muncul setelah pengguna memasukkan nama -->
-        <!-- Class 'hidden' menyembunyikan elemen ini saat halaman dimuat -->
         <div id="topic-selection" class="hidden">
-            <!-- Judul untuk pemilihan topik -->
             <h2 style="color: #4a90e2; margin-bottom: 30px;">Pilih Topik Kuis</h2>
-            
-            <!-- Grid container untuk menampilkan kartu topik -->
             <div class="topic-grid">
-                <!-- Kartu topik Pengetahuan Umum -->
                 <div class="topic-card" onclick="pilihTopik('Pengetahuan Umum')">
                     <h3 style="color: #4a90e2;">🧠 Pengetahuan Umum</h3>
                     <p>Uji wawasan luas Anda</p>
                 </div>
-                
-                <!-- Kartu topik Matematika -->
                 <div class="topic-card" onclick="pilihTopik('Matematika')">
                     <h3 style="color: #4a90e2;">📊 Matematika</h3>
                     <p>Uji kemampuan matematika dasar hingga lanjutan</p>
                 </div>
-                
-                <!-- Kartu topik Sains -->
                 <div class="topic-card" onclick="pilihTopik('Sains')">
                     <h3 style="color: #4a90e2;">🔬 Sains</h3>
                     <p>Pengetahuan sains umum (Fisika, Kimia, Biologi)</p>
                 </div>
-                
-                <!-- Kartu topik Sejarah -->
                 <div class="topic-card" onclick="pilihTopik('Sejarah')">
                     <h3 style="color: #4a90e2;">📜 Sejarah</h3>
                     <p>Sejarah dunia dan peradaban</p>
                 </div>
-                
-                <!-- Kartu topik Budaya -->
                 <div class="topic-card" onclick="pilihTopik('Budaya')">
                     <h3 style="color: #4a90e2;">🎭 Budaya</h3>
                     <p>Seni, tradisi, dan warisan budaya</p>
@@ -77,56 +43,26 @@
             </div>
         </div>
 
-        <!-- LAYAR KUIS -->
-        <!-- Layar utama tempat pertanyaan dan pilihan jawaban ditampilkan -->
         <div id="quiz-screen" class="hidden">
-            <!-- Container untuk menampilkan pertanyaan dan opsi -->
             <div class="question-container">
-                <!-- Nomor pertanyaan (diisi dinamis oleh JavaScript) -->
                 <div class="question-number" id="question-number"></div>
-                
-                <!-- Teks pertanyaan (diisi dinamis oleh JavaScript) -->
                 <div class="question-text" id="question-text"></div>
-                
-                <!-- Container untuk pilihan jawaban (diisi dinamis oleh JavaScript) -->
                 <div class="options" id="options-container"></div>
-                
-                <!-- Pesan feedback setelah menjawab pertanyaan -->
-                <!-- Class 'hidden' menyembunyikan elemen ini secara default -->
                 <div id="feedback-message" class="feedback-message hidden"></div>
             </div>
-            
-            <!-- Tombol untuk melanjutkan ke pertanyaan berikutnya -->
-            <!-- disabled="true" membuat tombol tidak dapat diklik sampai jawaban dipilih -->
             <button class="btn" id="next-btn" onclick="pertanyaanSelanjutnya()" disabled>Selanjutnya</button>
-            
-            <!-- Tombol untuk keluar dari kuis -->
-            <!-- btn-secondary memberikan styling yang berbeda -->
             <button class="btn btn-secondary" id="exit-quiz-btn" onclick="konfirmasiKeluarKuis()">Keluar Kuis</button>
         </div>
 
-        <!-- LAYAR HASIL -->
-        <!-- Layar terakhir yang menampilkan skor dan hasil kuis -->
         <div id="results-screen" class="hidden">
-            <!-- Judul hasil kuis -->
             <h2 style="color: #4a90e2;">Hasil Kuis</h2>
-            
-            <!-- Skor akhir (diisi dinamis oleh JavaScript) -->
             <div class="score" id="final-score"></div>
-            
-            <!-- Pesan hasil berdasarkan skor (diisi dinamis oleh JavaScript) -->
             <div class="message" id="result-message"></div>
-            
-            <!-- Tombol untuk mengulang kuis -->
             <button class="btn" onclick="ulangKuis()">Mulai Ulang</button>
-            
-            <!-- Tombol untuk keluar dari kuis -->
-            <!-- btn-danger memberikan styling warna merah -->
             <button class="btn btn-danger" onclick="keluarKuis(true)">Keluar Kuis</button>
         </div>
     </div>
 
-    <!-- Menghubungkan file JavaScript eksternal yang berisi logika aplikasi -->
     <script src="script.js"></script>
 </body>
 </html>
